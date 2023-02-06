@@ -1,0 +1,22 @@
+providers:
+    docker:
+        watch: true
+        endpoint: "unix:///var/run/docker.sock"
+        exposedByDefault: false
+        network: proxy
+        defaultRule: "Host(`{{ trimPrefix `/` .Name }}.test`)"
+
+entryPoints:
+    web:
+        address: ":80"
+    webs:
+        address: ":443"
+
+api:
+    insecure: true
+
+serversTransport:
+    insecureSkipVerify: true
+
+log:
+    level: DEBUG

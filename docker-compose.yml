@@ -1,0 +1,23 @@
+version: '2.4'
+services:
+    traefik:
+        image: traefik:latest
+        container_name: traefik
+        restart: always
+        networks: [ default ]
+        ports:
+            - '80:80'
+            - '8080:8080'
+            - '443:443'
+        volumes:
+            - ./traefik.yml:/etc/traefik/traefik.yml:cached
+            - /var/run/docker.sock:/var/run/docker.sock
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.traefik.tls=true
+            - traefik.http.routers.traefik.rule=Host("traefik.local")
+
+networks:
+    default:
+        external: true
+        name: proxy
